@@ -1,7 +1,7 @@
 ---
 site:
   title: "WordSwarm AI: Reasoning & Benchmarking Workshop"
-  url: https://rhpds.github.io/wordbeez-docker
+  url: https://rhpds.github.io/ai-lightning-wordswarm-showroom
   start_page: modules::index.adoc
 
 content:
@@ -14,6 +14,11 @@ ui:
     url: https://github.com/rhpds/rhdp_showroom_theme/releases/download/patternfly-6/ui-bundle.zip
     snapshot: true
   supplemental_files: ./content/supplemental-ui
+
+antora:
+  extensions:
+    - require: '@antora/lunr-extension'
+      index_by_heading: true
 
 asciidoc:
   attributes:
