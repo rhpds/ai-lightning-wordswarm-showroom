@@ -1,0 +1,225 @@
+= Module 1: Simple reasoning prompting
+:navtitle: Module 1: Reasoning Prompting
+:source-highlighter: rouge
+:toc: macro
+:toclevels: 1
+:icons: font
+
+Reasoning models like kimi-k2-5 support extended thinking -- an internal chain-of-thought that runs before the model produces visible output. When served via vLLM, you can toggle thinking on or off using the `chat_template_kwargs` parameter.
+
+In this module, you'll experiment with thinking mode against live MaaS endpoints to see how reasoning affects response quality, latency, and token consumption.
+
+== Learning objectives
+
+By the end of this module, you'll be able to:
+
+* Explain the difference between thinking-enabled and thinking-disabled inference
+* Toggle reasoning on/off via `chat_template_kwargs` in the API request
+* Observe how reasoning affects latency and token usage
+* Decide when to enable or disable reasoning for your use case
+
+== How does reasoning work?
+
+When thinking is enabled (the default for kimi-k2-5), the model performs internal chain-of-thought reasoning before producing its final answer. The reasoning tokens appear in the `reasoning` field of the response message.
+
+* **Thinking ON** (default) -- The model reasons step-by-step internally. Higher quality but more tokens and latency.
+* **Thinking OFF** -- Pass `"chat_template_kwargs": {"thinking": false}` to skip reasoning. Faster and cheaper, but may miss nuance.
+
+The reasoning tokens are returned in the `.choices[0].message.reasoning` field.
+
+== Exercise 1: Set up your environment
+
+. Export your MaaS API token:
++
+[.copypaste]
+[source,bash]
+----
+export TOKEN="your-bearer-token-here"
+----
+
+. Verify connectivity to the MaaS API:
++
+[.copypaste]
+[source,bash]
+----
+curl -s -H "Authorization: Bearer $TOKEN" \
+  http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/models | jq .
+----
++
+You should see model metadata confirming the endpoint is live.
+
+=== Verify
+
+✓ Token is exported +
+✓ API returns model metadata
+
+== Exercise 2: Compare thinking ON vs OFF
+
+Let's send the same question with and without reasoning enabled.
+
+. **Thinking OFF** -- ask the model a word puzzle question with reasoning disabled:
++
+[.copypaste]
+[source,bash]
+----
+curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/completions \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "kimi-k2-5",
+    "messages": [
+      {"role": "user", "content": "The letters S, H, O, P are on adjacent hexagonal cells. The hint is S___ (4 letters). What word could this be? List all possibilities."}
+    ],
+    "max_tokens": 512,
+    "chat_template_kwargs": {"thinking": false}
+  }' | jq '{content: .choices[0].message.content, reasoning: .choices[0].message.reasoning, usage: .usage}'
+----
++
+Note: the `reasoning` field should be `null` and token usage should be low.
+
+. **Thinking ON** (default) -- same question, reasoning enabled:
++
+[.copypaste]
+[source,bash]
+----
+curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/completions \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "kimi-k2-5",
+    "messages": [
+      {"role": "user", "content": "The letters S, H, O, P are on adjacent hexagonal cells. The hint is S___ (4 letters). What word could this be? List all possibilities."}
+    ],
+    "max_tokens": 4096
+  }' | jq '{content: .choices[0].message.content, reasoning: .choices[0].message.reasoning[0:500], usage: .usage}'
+----
++
+Observe: the `reasoning` field now shows the model's internal chain-of-thought. Token usage will be significantly higher.
+
+=== Verify
+
+✓ Thinking OFF returns a quick answer with `reasoning: null` +
+✓ Thinking ON returns a detailed answer with visible reasoning in the `reasoning` field +
+✓ Token usage is much higher with thinking ON
+
+== Exercise 3: Measure the latency difference
+
+Let's time both approaches to quantify the reasoning overhead.
+
+. Time the **thinking OFF** response:
++
+[.copypaste]
+[source,bash]
+----
+time curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/completions \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "kimi-k2-5",
+    "messages": [
+      {"role": "user", "content": "Given the words SHOP, SONG, SING, SPIN — which one is most commonly used in everyday English? Answer in one word."}
+    ],
+    "max_tokens": 256,
+    "chat_template_kwargs": {"thinking": false}
+  }' > /dev/null
+----
+
+. Time the **thinking ON** response:
++
+[.copypaste]
+[source,bash]
+----
+time curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/completions \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "kimi-k2-5",
+    "messages": [
+      {"role": "user", "content": "Given the words SHOP, SONG, SING, SPIN — which one is most commonly used in everyday English? Answer in one word."}
+    ],
+    "max_tokens": 4096
+  }' > /dev/null
+----
+
+=== Verify
+
+✓ Thinking OFF completes faster +
+✓ Thinking ON takes longer due to internal reasoning +
+✓ The quality difference may or may not matter for simple questions
+
+== Exercise 4: Try with a non-reasoning model
+
+Not all models support thinking mode. Let's compare with a dense model that doesn't reason.
+
+. Send the same question to llama-3.2-3b:
++
+[.copypaste]
+[source,bash]
+----
+curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/llama-32-3b/v1/chat/completions \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "llama-32-3b",
+    "messages": [
+      {"role": "user", "content": "The letters S, H, O, P are on adjacent hexagonal cells. The hint is S___ (4 letters). What word could this be? List all possibilities."}
+    ],
+    "max_tokens": 512
+  }' | jq '{content: .choices[0].message.content, reasoning: .choices[0].message.reasoning, usage: .usage}'
+----
++
+Compare the response quality with kimi-k2-5's reasoning-enabled response. Notice there is no `reasoning` field.
+
+=== Verify
+
+✓ Non-reasoning model produces a direct answer +
+✓ No `reasoning` field in the response +
+✓ Quality may differ from the reasoning model's output
+
+== Exercise 5: Watch reasoning in action on WordSwarm
+
+. Open the WordSwarm dashboard in your browser:
++
+----
+https://red.ht/wordswarm
+----
++
+image::dashboard-overview.png[WordSwarm Dashboard,link=self,window=blank,width=700]
+
+. Select **kimi-k2-5** from the model dropdown (it's a reasoning model)
+
+. Click **START AGENT** and watch the agent play
++
+image::agent-running.png[Agent running with kimi-k2-5,link=self,window=blank,width=700]
+
+. Observe the stats panel:
+* **TTFT** (Time to First Token) -- higher for reasoning models due to thinking time
+* **Tokens In/Out** -- reasoning models consume more tokens per call
+* **Latency** -- includes both thinking and generation time
+
+. Try switching to a different model (e.g., **Llama 3.2 3B Instruct**) and compare behavior
+
+=== Verify
+
+✓ Observed TTFT difference between reasoning and non-reasoning models +
+✓ Noticed token consumption patterns +
+✓ Saw how reasoning affects game-playing ability
+
+== Module summary
+
+**What you accomplished:**
+
+* Toggled reasoning on/off using `chat_template_kwargs` on a live MaaS endpoint
+* Measured latency and token overhead of reasoning
+* Compared reasoning vs. non-reasoning model responses
+* Observed reasoning in action on a live AI agent
+
+**Key takeaways:**
+
+* kimi-k2-5 uses `"chat_template_kwargs": {"thinking": false}` to disable reasoning (not prompt tags)
+* Reasoning tokens appear in the `.choices[0].message.reasoning` field
+* Thinking ON improves response quality at the cost of latency and tokens
+* Thinking OFF is faster but may miss nuance on complex tasks
+* For real-time tasks like WordSwarm, reasoning overhead directly impacts gameplay speed
+
+**Next:** Module 2 will benchmark these models using GuideLLM to measure raw throughput and concurrency.

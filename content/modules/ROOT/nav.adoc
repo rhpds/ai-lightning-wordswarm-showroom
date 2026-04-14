@@ -1,5 +1,12 @@
-* xref:index.adoc[AI Lightning Labs - Wordswarm]
+* xref:index.adoc[Welcome]
+* xref:00-guide.adoc[Guide]
+
+.Workshop
+* xref:01-overview.adoc[Workshop Overview]
 
 .Modules
-* xref:module-01.adoc[Module 1: TBD]
-* xref:module-02.adoc[Module 2: TBD]
+* xref:02-module-01-reasoning.adoc[Module 1: Reasoning Prompting]
+* xref:03-module-02-benchmarking.adoc[Module 2: GuideLLM Benchmarking]
+
+.Wrap-up
+* xref:04-conclusion.adoc[Conclusion]
