@@ -1,7 +1,0 @@
-{
-  "name": "ai-lightning-wordswarm-showroom",
-  "private": true,
-  "dependencies": {
-    "@antora/lunr-extension": "^1.0.0-alpha.8"
-  }
-}

@@ -15,11 +15,6 @@ ui:
     snapshot: true
   supplemental_files: ./content/supplemental-ui
 
-antora:
-  extensions:
-    - require: '@antora/lunr-extension'
-      index_by_heading: true
-
 asciidoc:
   attributes:
     showroom-collection-version: v1.5.2
