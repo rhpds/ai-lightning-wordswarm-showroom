@@ -1,5 +1,5 @@
 name: modules
-title: Showroom Collection
+title: "AI Lightning Labs - Wordswarm"
 version: ~
 nav:
   - modules/ROOT/nav.adoc
@@ -9,6 +9,10 @@ asciidoc:
     experimental: true
     page-pagination: true
     showroom-collection-version: v1.5.6
+    lab_name: "AI Lightning Labs - Wordswarm"
+    wordswarm_url: "https://red.ht/wordswarm"
+    maas_api_url: "http://maas.apps.ocp.cloud.rhai-tmm.dev"
+    model_token: "$TOKEN"
     guid: abc123
     bastion_public_hostname: bastion.abc123.ocpv00.rhdp.net
     bastion_ssh_user_name: lab-user

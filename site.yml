@@ -1,6 +1,6 @@
 ---
 site:
-  title: "WordSwarm AI: Reasoning & Benchmarking Workshop"
+  title: "AI Lightning Labs - Wordswarm"
   url: https://rhpds.github.io/ai-lightning-wordswarm-showroom
   start_page: modules::index.adoc
 
