@@ -21,7 +21,7 @@ OpenShift AI displays the main console.
 
 == Create a project
 
-. Use the empty project that has been created for you.
+. Use the empty **`{user}`-demo** project that has been created for you.
 
 == Create a workbench
 
