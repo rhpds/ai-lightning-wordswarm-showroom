@@ -181,9 +181,7 @@ Compare the response quality with kimi-k2-5's reasoning-enabled response. Notice
 
 . Open the WordSwarm dashboard in your browser:
 +
-----
-https://red.ht/wordswarm
-----
+https://red.ht/wordswarm[WordSwarm AI Demo^]
 +
 image::dashboard-overview.png[WordSwarm Dashboard,link=self,window=blank,width=700]
 
