@@ -90,7 +90,7 @@ pip config set global.index-url https://console.redhat.com/api/pypi/public-rhai/
 [.copypaste]
 [source,bash]
 ----
-oc login --user `{user}` --password `{password}`
+oc login --user {user} --password {password}
 ----
 
 You are now ready to begin the workshop modules.
