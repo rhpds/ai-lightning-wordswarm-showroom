@@ -77,6 +77,14 @@ You should see `Python 3.12.x`.
 pip --version && curl --version | head -1
 ----
 
+. Update the pip config to use the latest version of the packages:
++
+[.copypaste]
+[source,bash]
+----
+pip config set global.index-url https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4-EA2/cpu-ubi9/simple/
+----
+
 You are now ready to begin the workshop modules.
 
 == End of activity
