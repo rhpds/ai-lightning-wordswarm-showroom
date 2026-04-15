@@ -91,7 +91,7 @@ curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/compl
     "messages": [
       {"role": "user", "content": "The letters S, H, O, P are on adjacent hexagonal cells. The hint is S___ (4 letters). What word could this be? List all possibilities."}
     ],
-    "max_tokens": 4096
+    "max_tokens": 512
   }' | jq '{content: .choices[0].message.content, reasoning: .choices[0].message.reasoning[0:500], usage: .usage}'
 ----
 +
@@ -120,7 +120,7 @@ time curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/
     "messages": [
       {"role": "user", "content": "Given the words SHOP, SONG, SING, SPIN — which one is most commonly used in everyday English? Answer in one word."}
     ],
-    "max_tokens": 256,
+    "max_tokens": 512,
     "chat_template_kwargs": {"thinking": false}
   }' > /dev/null
 ----
@@ -138,7 +138,7 @@ time curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/
     "messages": [
       {"role": "user", "content": "Given the words SHOP, SONG, SING, SPIN — which one is most commonly used in everyday English? Answer in one word."}
     ],
-    "max_tokens": 4096
+    "max_tokens": 512
   }' > /dev/null
 ----
 
