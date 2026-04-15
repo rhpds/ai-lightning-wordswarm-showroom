@@ -34,7 +34,8 @@ The reasoning tokens are returned in the `.choices[0].message.reasoning` field.
 [.copypaste]
 [source,bash]
 ----
-export TOKEN="your-bearer-token-here"
+export TOKEN=$(oc get secret maas-secret -o jsonpath='{.data.token}' | base64 -d)
+echo "Token obtained: ${TOKEN:0:20}..."
 ----
 
 . Verify connectivity to the MaaS API:
