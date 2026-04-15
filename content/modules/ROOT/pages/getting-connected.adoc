@@ -23,17 +23,19 @@ OpenShift AI displays the main console.
 
 . Use the empty **`{user}`-demo** project that has been created for you.
 
+image::project-overview.png[Project Overview,link=self,window=blank,width=700]
+
 == Create a workbench
 
 . Click **Create a workbench** on the project Overview page.
+
+image::workbench-create.png[Create Workbench,link=self,window=blank,width=700]
 
 . Enter the following details into the *Create workbench* form:
 
 **Name:** lab
 
-**Image Selection:** Standard Data Science
-
-**Version:** 2024.2 (Python 3.12)
+**Image Selection:** Jupyter | Minimal | CPU | Python
 
 Leave all other settings as defaults.
 
@@ -41,15 +43,15 @@ Leave all other settings as defaults.
 
 OpenShift AI creates and starts the workbench. Wait for the status to change to *Running*.
 
+image::running-workbench.png[Running Workbench,link=self,window=blank,width=700]
+
 == Open the workbench
 
 . Click **lab** to open *JupyterLab*.
 
-. Log in using the same credentials you used to log into OpenShift.
-
-. Click **Login**
-
 JupyterLab launches in your browser.
+
+image::jupyterlab-overview.png[JupyterLab Overview,link=self,window=blank,width=700]
 
 == Open a terminal
 
