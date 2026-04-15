@@ -5,6 +5,7 @@
 * xref:01-overview.adoc[Workshop Overview]
 
 .Modules
+* xref:getting-connected.adoc[Getting Connected]
 * xref:02-module-01-reasoning.adoc[Module 1: Reasoning Prompting]
 * xref:03-module-02-benchmarking.adoc[Module 2: GuideLLM Benchmarking]
 

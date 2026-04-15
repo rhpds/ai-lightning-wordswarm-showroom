@@ -1,0 +1,82 @@
+= Getting Connected
+:source-highlighter: rouge
+
+In this activity, you will connect to your workshop environment and set up a workbench for the lab exercises.
+
+== Login to OpenShift AI
+
+. Open the OpenShift console using the URL provided for your workshop environment.
+
+. Click the **Applications** menu button in the OpenShift toolbar.
+
+. Click **Red Hat OpenShift AI**.
+
+. Log in using the credentials provided for the workshop:
+
+**Username:** `{user}`
+
+**Password:** `{password}`
+
+OpenShift AI displays the main console.
+
+== Create a project
+
+. Use the empty project that has been created for you.
+
+== Create a workbench
+
+. Click **Create a workbench** on the project Overview page.
+
+. Enter the following details into the *Create workbench* form:
+
+**Name:** lab
+
+**Image Selection:** Standard Data Science
+
+**Version:** 2024.2 (Python 3.12)
+
+Leave all other settings as defaults.
+
+. Click **Create workbench**
+
+OpenShift AI creates and starts the workbench. Wait for the status to change to *Running*.
+
+== Open the workbench
+
+. Click **lab** to open *JupyterLab*.
+
+. Log in using the same credentials you used to log into OpenShift.
+
+. Click **Login**
+
+JupyterLab launches in your browser.
+
+== Open a terminal
+
+For the workshop exercises you will use a terminal inside JupyterLab.
+
+. In JupyterLab, click **File > New > Terminal**
+
+. Verify Python is available:
++
+[.copypaste]
+[source,bash]
+----
+python --version
+----
++
+You should see `Python 3.12.x`.
+
+. Verify `pip` and `curl` are available:
++
+[.copypaste]
+[source,bash]
+----
+pip --version && curl --version | head -1
+----
+
+You are now ready to begin the workshop modules.
+
+== End of activity
+
+Congratulations, you have successfully connected to your environment.
