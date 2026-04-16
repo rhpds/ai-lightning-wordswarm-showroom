@@ -69,7 +69,7 @@ guidellm benchmark \
   --max-seconds 30 \
   --processor "gpt2" \
   --output-dir ./results/kimi-k2-5/concurrent-10 \
-  --outputs json,csv
+  --outputs benchmark.json,benchmark.csv
 ----
 
 . Review the output metrics:
@@ -102,7 +102,7 @@ guidellm benchmark \
   --max-seconds 30 \
   --processor "gpt2" \
   --output-dir ./results/nemotron-cascade-2-30b/concurrent-10 \
-  --outputs json,csv
+  --outputs benchmark.json,benchmark.csv
 ----
 
 === Verify
@@ -129,7 +129,7 @@ guidellm benchmark \
   --max-seconds 30 \
   --processor "gpt2" \
   --output-dir ./results/llama-4-scout-17b/concurrent-10 \
-  --outputs json,csv
+  --outputs benchmark.json,benchmark.csv
 ----
 
 === Verify
@@ -156,7 +156,7 @@ guidellm benchmark \
   --max-seconds 30 \
   --processor "gpt2" \
   --output-dir ./results/llama-32-3b/concurrent-10 \
-  --outputs json,csv
+  --outputs benchmark.json,benchmark.csv
 ----
 
 === Verify
@@ -261,7 +261,7 @@ guidellm benchmark \
   --max-seconds 30 \
   --processor "gpt2" \
   --output-dir ./results/kimi-k2-5/synchronous \
-  --outputs json,csv
+  --outputs benchmark.json,benchmark.csv
 ----
 
 . **Concurrent with higher rate**:
@@ -279,7 +279,7 @@ guidellm benchmark \
   --max-seconds 30 \
   --processor "gpt2" \
   --output-dir ./results/kimi-k2-5/concurrent-50 \
-  --outputs json,csv
+  --outputs benchmark.json,benchmark.csv
 ----
 
 Compare how throughput and latency change under different concurrency levels.
