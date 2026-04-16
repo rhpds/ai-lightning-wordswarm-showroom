@@ -1,6 +1,5 @@
 = Module 2: GuideLLM benchmarking
 :navtitle: Module 2: GuideLLM Benchmarking
-:source-highlighter: rouge
 :toc: macro
 :toclevels: 1
 :icons: font
