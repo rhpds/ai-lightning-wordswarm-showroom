@@ -335,9 +335,29 @@
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
+  // ── Copy-to-parent (plugin integration) ──────────────────────────────────
+  // When loaded inside the workshop plugin iframe, send .copypaste code block
+  // content to the parent window so it can paste into the OpenShift terminal.
+  // Falls back cleanly: when not in an iframe this is a no-op.
+
+  function initCopyToParent() {
+    if (window.parent === window) return; // not in an iframe, skip
+
+    document.addEventListener('click', function (e) {
+      // Antora's clipboard button lives inside .listingblock
+      var btn = e.target.closest('.copypaste .clipboard, .copypaste button[title="Copy"]');
+      if (!btn) return;
+      var listing = btn.closest('.listingblock');
+      if (!listing) return;
+      var code = listing.querySelector('pre code');
+      if (!code) return;
+      window.parent.postMessage({ type: 'copy', text: code.textContent.trim() }, '*');
+    });
+  }
+
   // ── Boot ──────────────────────────────────────────────────────────────────
 
-  function init() { initSendTo(); initSolve(); initValidate(); }
+  function init() { initSendTo(); initSolve(); initValidate(); initCopyToParent(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

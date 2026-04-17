@@ -12,12 +12,15 @@ asciidoc:
     showroom-collection-version: v1.5.6
     lab_name: "AI Lightning Labs - Wordswarm"
     wordswarm_url: "https://red.ht/wordswarm"
-    maas_api_url: "http://maas.apps.ocp.cloud.rhai-tmm.dev"
+    maas_api_url: "https://maas.apps.ocp.cloud.rhai-tmm.dev"
     model_token: "$TOKEN"
     guid: abc123
-    bastion_public_hostname: bastion.abc123.ocpv00.rhdp.net
+    bastion_public_hostname: bastion.example.com
     bastion_ssh_user_name: lab-user
     bastion_ssh_password: password
     ssh_user: lab-user
-    openshift_console_url: https://console-openshift-console.apps.cluster-abc123.ocpv00.rhdp.net
-    openshift_cluster_ingress_domain: apps.cluster-abc123.ocpv00.rhdp.net
+    user: user-abc123
+    password: password
+    openshift_api_url: "https://api.cluster.example.com:6443"
+    openshift_console_url: https://console-openshift-console.apps.cluster.example.com
+    openshift_cluster_ingress_domain: apps.cluster.example.com
