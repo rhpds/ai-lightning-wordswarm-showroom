@@ -17,10 +17,10 @@ asciidoc:
     guid: abc123
     bastion_public_hostname: bastion.example.com
     bastion_ssh_user_name: lab-user
-    bastion_ssh_password: password
+    bastion_ssh_password: %bastion_ssh_password%
     ssh_user: lab-user
     user: user-abc123
-    password: password
+    password: %password%
     openshift_api_url: "https://api.cluster.example.com:6443"
     openshift_console_url: https://console-openshift-console.apps.cluster.example.com
     openshift_cluster_ingress_domain: apps.cluster.example.com
