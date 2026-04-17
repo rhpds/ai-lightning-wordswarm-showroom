@@ -13,21 +13,9 @@ view_switcher:
   default_mode: split
 
 tabs:
-
-  # ── OCP TENANT (single terminal) ──────────────────────────────────────────
-  # role="send-to-wetty"
-  # - name: Terminal
-  #   url: /wetty
-  #   type: terminal
-
-  # ── OCP TENANT + CONSOLE ──────────────────────────────────────────────────
-  # role="send-to-wetty" | ${DOMAIN} substituted from showroom-userdata CM
-  # - name: Terminal
-  #   url: /wetty
-  #   type: terminal
-  # - name: OCP Console
-  #   url: 'https://console-openshift-console.${DOMAIN}'
-  #   external: false
+  # Red Hat OpenShift AI Console
+  - name: Red Hat OpenShift AI Console
+    url: 'https://rh-ai.${DOMAIN}'
 
   # ── OCP DEDICATED (terminal container, no wetty) ──────────────────────────
   # AgV: terminal_type: showroom → serves at /terminal/
