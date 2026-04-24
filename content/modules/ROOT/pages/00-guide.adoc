@@ -139,7 +139,7 @@ Unlike a script, the agent **adapts**. If the solver returns ambiguous matches, 
 
 === Reasoning Models
 
-Some models (like **kimi-k2-5**) use internal "chain of thought" before producing a visible answer. This shows up as **reasoning tokens** -- tokens the model generates for itself, not shown to the user.
+Some models (like **kimi-k2-6**) use internal "chain of thought" before producing a visible answer. This shows up as **reasoning tokens** -- tokens the model generates for itself, not shown to the user.
 
 Reasoning models often produce better decisions (fewer wrong guesses) but consume more tokens and take longer per call. Watch the **Tokens Out** counter -- a reasoning model may show high output even when the visible response is short.
 

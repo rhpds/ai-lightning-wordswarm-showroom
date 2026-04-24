@@ -50,9 +50,9 @@ echo "Token obtained: ${TOKEN:0:20}..."
 ✓ `guidellm --version` returns a version number +
 ✓ Token is exported
 
-== Exercise 2: Benchmark kimi-k2-5 (reasoning model)
+== Exercise 2: Benchmark kimi-k2-6 (reasoning model)
 
-kimi-k2-5 is the top-performing model on the WordSwarm leaderboard. Let's measure its raw inference performance.
+kimi-k2-6 is the top-performing model on the WordSwarm leaderboard. Let's measure its raw inference performance.
 
 . Run the benchmark:
 +
@@ -60,15 +60,15 @@ kimi-k2-5 is the top-performing model on the WordSwarm leaderboard. Let's measur
 [source,bash]
 ----
 guidellm benchmark \
-  --target "http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1" \
+  --target "https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/kimi-k2-6/v1" \
   --backend-kwargs '{"api_key": "'$TOKEN'"}' \
   --profile concurrent \
   --rate 10 \
-  --model kimi-k2-5 \
+  --model kimi-k2-6 \
   --data "prompt_tokens=64,output_tokens=128" \
   --max-seconds 30 \
   --processor "gpt2" \
-  --output-dir ./results/kimi-k2-5/concurrent-10 \
+  --output-dir ./results/kimi-k2-6/concurrent-10 \
   --outputs benchmark.json,benchmark.csv
 ----
 
@@ -172,7 +172,7 @@ Collect your benchmark results and fill in this comparison table:
 |===
 |Model |GPU Allocation |Throughput (req/s) |p50 Latency |TTFT (p50) |Tokens/s
 
-|kimi-k2-5
+|kimi-k2-6
 |8x H200
 |___
 |___
@@ -216,7 +216,7 @@ Now compare your synthetic benchmarks with the actual WordSwarm game results:
 |===
 |Model |Benchmark Tokens/s |Game Tokens/s |Game Score |Game Accuracy
 
-|kimi-k2-5
+|kimi-k2-6
 |___
 |58.6
 |1,038
@@ -241,7 +241,7 @@ Now compare your synthetic benchmarks with the actual WordSwarm game results:
 |80%
 |===
 
-**Key insight:** Raw throughput doesn't directly predict game performance. nemotron-cascade has the highest game tokens/s (128.6) but scores lower than kimi-k2-5. The reasoning capability of the model matters more than raw speed for complex tasks.
+**Key insight:** Raw throughput doesn't directly predict game performance. nemotron-cascade has the highest game tokens/s (128.6) but scores lower than kimi-k2-6. The reasoning capability of the model matters more than raw speed for complex tasks.
 
 == Exercise 7: Try different benchmark profiles
 
@@ -253,14 +253,14 @@ GuideLLM supports different load profiles. Try sweeping concurrency:
 [source,bash]
 ----
 guidellm benchmark \
-  --target "http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1" \
+  --target "https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/kimi-k2-6/v1" \
   --backend-kwargs '{"api_key": "'$TOKEN'"}' \
   --profile synchronous \
-  --model kimi-k2-5 \
+  --model kimi-k2-6 \
   --data "prompt_tokens=64,output_tokens=128" \
   --max-seconds 30 \
   --processor "gpt2" \
-  --output-dir ./results/kimi-k2-5/synchronous \
+  --output-dir ./results/kimi-k2-6/synchronous \
   --outputs benchmark.json,benchmark.csv
 ----
 
@@ -270,15 +270,15 @@ guidellm benchmark \
 [source,bash]
 ----
 guidellm benchmark \
-  --target "http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1" \
+  --target "https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/kimi-k2-6/v1" \
   --backend-kwargs '{"api_key": "'$TOKEN'"}' \
   --profile concurrent \
   --rate 50 \
-  --model kimi-k2-5 \
+  --model kimi-k2-6 \
   --data "prompt_tokens=64,output_tokens=128" \
   --max-seconds 30 \
   --processor "gpt2" \
-  --output-dir ./results/kimi-k2-5/concurrent-50 \
+  --output-dir ./results/kimi-k2-6/concurrent-50 \
   --outputs benchmark.json,benchmark.csv
 ----
 
@@ -304,7 +304,7 @@ Compare how throughput and latency change under different concurrency levels.
 
 * Synthetic benchmarks measure raw inference speed -- useful for capacity planning
 * Real-world performance depends on model capability, not just speed
-* MoE models (kimi-k2-5, Nemotron) show different throughput profiles than dense models
+* MoE models (kimi-k2-6, Nemotron) show different throughput profiles than dense models
 * Quantization (W4A16) reduces memory but may affect throughput
 * GPU allocation directly impacts maximum concurrency and throughput
 

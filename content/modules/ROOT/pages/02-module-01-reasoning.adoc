@@ -4,7 +4,7 @@
 :toclevels: 1
 :icons: font
 
-Reasoning models like kimi-k2-5 support extended thinking -- an internal chain-of-thought that runs before the model produces visible output. When served via vLLM, you can toggle thinking on or off using the `chat_template_kwargs` parameter.
+Reasoning models like kimi-k2-6 support extended thinking -- an internal chain-of-thought that runs before the model produces visible output. When served via vLLM, you can toggle thinking on or off using the `chat_template_kwargs` parameter.
 
 In this module, you'll experiment with thinking mode against live MaaS endpoints to see how reasoning affects response quality, latency, and token consumption.
 
@@ -19,7 +19,7 @@ By the end of this module, you'll be able to:
 
 == How does reasoning work?
 
-When thinking is enabled (the default for kimi-k2-5), the model performs internal chain-of-thought reasoning before producing its final answer. The reasoning tokens appear in the `reasoning` field of the response message.
+When thinking is enabled (the default for kimi-k2-6), the model performs internal chain-of-thought reasoning before producing its final answer. The reasoning tokens appear in the `reasoning` field of the response message.
 
 * **Thinking ON** (default) -- The model reasons step-by-step internally. Higher quality but more tokens and latency.
 * **Thinking OFF** -- Pass `"chat_template_kwargs": {"thinking": false}` to skip reasoning. Faster and cheaper, but may miss nuance.
@@ -43,7 +43,7 @@ echo "Token obtained: ${TOKEN:0:20}..."
 [source,bash]
 ----
 curl -s -H "Authorization: Bearer $TOKEN" \
-  http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/models | jq .
+  https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/kimi-k2-6/v1/models | jq .
 ----
 +
 You should see model metadata confirming the endpoint is live.
@@ -62,11 +62,11 @@ Let's send the same question with and without reasoning enabled.
 [.copypaste]
 [source,bash]
 ----
-curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/completions \
+curl -s https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/kimi-k2-6/v1/chat/completions \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "kimi-k2-5",
+    "model": "kimi-k2-6",
     "messages": [
       {"role": "user", "content": "The letters S, H, O, P are on adjacent hexagonal cells. The hint is S___ (4 letters). What word could this be? List all possibilities."}
     ],
@@ -82,11 +82,11 @@ Note: the `reasoning` field should be `null` and token usage should be low.
 [.copypaste]
 [source,bash]
 ----
-curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/completions \
+curl -s https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/kimi-k2-6/v1/chat/completions \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "kimi-k2-5",
+    "model": "kimi-k2-6",
     "messages": [
       {"role": "user", "content": "The letters S, H, O, P are on adjacent hexagonal cells. The hint is S___ (4 letters). What word could this be? List all possibilities."}
     ],
@@ -111,11 +111,11 @@ Let's time both approaches to quantify the reasoning overhead.
 [.copypaste]
 [source,bash]
 ----
-time curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/completions \
+time curl -s https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/kimi-k2-6/v1/chat/completions \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "kimi-k2-5",
+    "model": "kimi-k2-6",
     "messages": [
       {"role": "user", "content": "Given the words SHOP, SONG, SING, SPIN — which one is most commonly used in everyday English? Answer in one word."}
     ],
@@ -129,11 +129,11 @@ time curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/
 [.copypaste]
 [source,bash]
 ----
-time curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1/chat/completions \
+time curl -s https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/kimi-k2-6/v1/chat/completions \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "kimi-k2-5",
+    "model": "kimi-k2-6",
     "messages": [
       {"role": "user", "content": "Given the words SHOP, SONG, SING, SPIN — which one is most commonly used in everyday English? Answer in one word."}
     ],
@@ -168,7 +168,7 @@ curl -s http://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/llama-32-3b/v1/chat
   }' | jq '{content: .choices[0].message.content, reasoning: .choices[0].message.reasoning, usage: .usage}'
 ----
 +
-Compare the response quality with kimi-k2-5's reasoning-enabled response. Notice there is no `reasoning` field.
+Compare the response quality with kimi-k2-6's reasoning-enabled response. Notice there is no `reasoning` field.
 
 === Verify
 
@@ -184,11 +184,11 @@ https://red.ht/wordswarm[WordSwarm AI Demo^]
 +
 image::dashboard-overview.png[WordSwarm Dashboard,link=self,window=blank,width=700]
 
-. Select **kimi-k2-5** from the model dropdown (it's a reasoning model)
+. Select **kimi-k2-6** from the model dropdown (it's a reasoning model)
 
 . Click **START AGENT** and watch the agent play
 +
-image::agent-running.png[Agent running with kimi-k2-5,link=self,window=blank,width=700]
+image::agent-running.png[Agent running with kimi-k2-6,link=self,window=blank,width=700]
 
 . Observe the stats panel:
 * **TTFT** (Time to First Token) -- higher for reasoning models due to thinking time
@@ -214,7 +214,7 @@ image::agent-running.png[Agent running with kimi-k2-5,link=self,window=blank,wid
 
 **Key takeaways:**
 
-* kimi-k2-5 uses `"chat_template_kwargs": {"thinking": false}` to disable reasoning (not prompt tags)
+* kimi-k2-6 uses `"chat_template_kwargs": {"thinking": false}` to disable reasoning (not prompt tags)
 * Reasoning tokens appear in the `.choices[0].message.reasoning` field
 * Thinking ON improves response quality at the cost of latency and tokens
 * Thinking OFF is faster but may miss nuance on complex tasks

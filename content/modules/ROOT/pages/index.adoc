@@ -13,7 +13,7 @@ In this workshop, you will:
 
 * **Play with reasoning models** — use `/think` and `/no-think` prompting to control LLM reasoning behavior in a live AI agent
 * **Benchmark MaaS models** — use GuideLLM to measure throughput, latency, and concurrency of models served via vLLM on OpenShift
-* **Compare model performance** — see how different models (kimi-k2-5, Nemotron, Llama, Gemma) perform on real-time tasks vs. synthetic benchmarks
+* **Compare model performance** — see how different models (kimi-k2-6, Nemotron, Llama, Gemma) perform on real-time tasks vs. synthetic benchmarks
 
 == The game
 

@@ -13,11 +13,11 @@ Congratulations! You've completed the WordSwarm AI workshop.
 
 === Reasoning matters for complex tasks
 
-kimi-k2-5 dominates the WordSwarm leaderboard because it *reasons* through ambiguity. Smaller models are faster but can't follow a game loop reliably. The `/think` and `/no-think` tags give you direct control over this tradeoff.
+kimi-k2-6 dominates the WordSwarm leaderboard because it *reasons* through ambiguity. Smaller models are faster but can't follow a game loop reliably. The `/think` and `/no-think` tags give you direct control over this tradeoff.
 
 === Benchmarks vs. reality
 
-Synthetic benchmarks measure raw inference capacity -- tokens/sec, latency percentiles, TTFT. Real-world performance depends on how well the model *uses* those tokens. nemotron-cascade has the highest raw throughput in-game (128.6 t/s) but scores 4x lower than kimi-k2-5.
+Synthetic benchmarks measure raw inference capacity -- tokens/sec, latency percentiles, TTFT. Real-world performance depends on how well the model *uses* those tokens. nemotron-cascade has the highest raw throughput in-game (128.6 t/s) but scores 4x lower than kimi-k2-6.
 
 === GPU cost-efficiency varies
 
@@ -25,7 +25,7 @@ Synthetic benchmarks measure raw inference capacity -- tokens/sec, latency perce
 |===
 |Model |GPU Memory |Best Score |Memory per Point
 
-|kimi-k2-5
+|kimi-k2-6
 |1,128 GB
 |1,038
 |1.09 GB/pt
@@ -46,13 +46,13 @@ Synthetic benchmarks measure raw inference capacity -- tokens/sec, latency perce
 |0.50 GB/pt
 |===
 
-nemotron-cascade is the most GPU-efficient scorer at 0.27 GB per point. kimi-k2-5 wins on absolute score but needs 1 TB of HBM3e for a word game.
+nemotron-cascade is the most GPU-efficient scorer at 0.27 GB per point. kimi-k2-6 wins on absolute score but needs 1 TB of HBM3e for a word game.
 
 == Try it yourself
 
 * **Play the game:** https://red.ht/wordswarm
 * **Watch the agent:** Select a model, click START AGENT, and see how different models approach the same puzzle
-* **Beat the AI:** No human scores on the production leaderboard yet -- can you beat kimi-k2-5's 1,038?
+* **Beat the AI:** No human scores on the production leaderboard yet -- can you beat kimi-k2-6's 1,038?
 
 == Resources
 
