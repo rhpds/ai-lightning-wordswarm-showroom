@@ -78,10 +78,13 @@ guidellm benchmark \
 * **TTFT** -- time to first token
 * **Tokens/sec** -- output token generation speed
 
+NOTE: kimi-k2-6 is a reasoning model with thinking enabled by default. The model buffers its internal chain-of-thought before flushing all output tokens in a single chunk. This means **TTFT and ITL will show as 0.0ms** -- GuideLLM can't measure per-token timing when the entire response arrives at once. The request latency (~2s) effectively _is_ the time-to-first-token since it includes the thinking phase. Compare this with nemotron-cascade in Exercise 3, which streams token-by-token and reports real TTFT/ITL values.
+
 === Verify
 
 ✓ Benchmark completes without errors +
-✓ Output shows throughput, latency, and TTFT metrics
+✓ Output shows throughput and latency metrics +
+✓ TTFT/ITL show 0.0ms (expected for reasoning models with thinking enabled)
 
 == Exercise 3: Benchmark Nemotron Cascade (efficient MoE)
 
