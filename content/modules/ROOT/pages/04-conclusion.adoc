@@ -6,49 +6,72 @@ Congratulations! You've completed the WordSwarm AI workshop.
 
 == What you accomplished
 
-* **Module 1: Reasoning Prompting** -- Explored `/think` and `/no-think` to control LLM reasoning behavior, measured the latency-quality tradeoff, and watched reasoning models outperform non-reasoning models on the WordSwarm game
-* **Module 2: GuideLLM Benchmarking** -- Benchmarked four models across different architectures and GPU allocations, compared synthetic throughput with real-world game performance, and explored concurrency profiles
+* **Module 1: Reasoning Prompting** -- Toggled thinking on/off via API calls to control LLM reasoning behavior, measured the token consumption and latency differences, and compared reasoning vs non-reasoning models in the WordSwarm game
+* **Module 2: GuideLLM Benchmarking** -- Benchmarked kimi-k2-6 and Llama 3.2 3B with very different GPU allocations, discovered that infrastructure matters more than model size for raw speed, and connected synthetic metrics to real-world game performance
 
 == Key takeaways
 
-=== Reasoning matters for complex tasks
+=== Reasoning capability matters more than raw speed
 
-kimi-k2-6 dominates the WordSwarm leaderboard because it *reasons* through ambiguity. Smaller models are faster but can't follow a game loop reliably. The `/think` and `/no-think` tags give you direct control over this tradeoff.
+kimi-k2-6 dominates the WordSwarm leaderboard because it *reasons* through ambiguity and follows the game loop reliably. Smaller models respond faster but struggle with complex reasoning tasks, leading to dramatically lower scores.
 
-=== Benchmarks vs. reality
-
-Synthetic benchmarks measure raw inference capacity -- tokens/sec, latency percentiles, TTFT. Real-world performance depends on how well the model *uses* those tokens. nemotron-cascade has the highest raw throughput in-game (128.6 t/s) but scores 4x lower than kimi-k2-6.
-
-=== GPU cost-efficiency varies
-
-[cols="2,1,1,1",options="header"]
+[cols="2,1,1,1,1,1,1",options="header"]
 |===
-|Model |GPU Memory |Best Score |Memory per Point
+|Model |GPUs |Score |Level |Words |Accuracy |Avg Latency
 
 |kimi-k2-6
-|1,128 GB
-|1,038
-|1.09 GB/pt
+|8x H200
+|**1,038**
+|21
+|284
+|65%
+|977ms
 
 |nemotron-cascade-2-30b
-|71 GB
-|264
-|0.27 GB/pt
+|1x MIG-3g.71GB
+|**264**
+|6
+|76
+|59%
+|2.0s
 
-|llama-4-scout-17b
-|142 GB
-|153
-|0.93 GB/pt
+|llama-4-scout-17b (W4A16)
+|2x MIG-3g.71GB
+|**153**
+|4
+|34
+|76%
+|516ms
 
 |llama-3.2-3b-instruct
-|18 GB
-|36
-|0.50 GB/pt
+|1x MIG-1g.18GB
+|**36**
+|1
+|10
+|80%
+|567ms
 |===
 
-nemotron-cascade is the most GPU-efficient scorer at 0.27 GB per point. kimi-k2-6 wins on absolute score but needs 1 TB of HBM3e for a word game.
+The massive reasoning model (kimi-k2-6) scored 29x higher than the tiny model (Llama 3.2 3B) despite lower accuracy — reasoning capability matters more than raw speed for complex tasks.
 
-== Try it yourself
+=== GPU allocation directly impacts performance
+
+You might expect the tiny 3B model to outperform the massive reasoning model, but the opposite is true. kimi-k2-6 (8x H200 GPUs) delivers better performance than Llama 3.2 3B (1x tiny MIG slice) across every metric: latency, TTFT, and tokens/sec. Infrastructure matters.
+
+=== Thinking mode has significant trade-offs
+
+Enabling reasoning (thinking mode) provides better quality responses but:
+* Consumes far more tokens (reasoning + content vs content alone)
+* Without token caps, responses include both reasoning and content
+* With token caps, reasoning can consume the entire budget, leaving `content: null`
+
+Understanding when to enable/disable thinking is critical for balancing quality, cost, and latency.
+
+=== Synthetic benchmarks don't tell the whole story
+
+GuideLLM measures raw inference capacity: tokens/sec, latency, TTFT. Real-world performance depends on how well the model *uses* those tokens. The highest-scoring models in WordSwarm aren't always the fastest at token generation — reasoning quality matters more than raw speed for complex tasks.
+
+== Play to beat the AI
 
 * **Play the game:** https://red.ht/wordswarm
 * **Watch the agent:** Select a model, click START AGENT, and see how different models approach the same puzzle
@@ -58,7 +81,8 @@ nemotron-cascade is the most GPU-efficient scorer at 0.27 GB per point. kimi-k2-
 
 * https://github.com/neuralmagic/guidellm[GuideLLM on GitHub]
 * https://docs.vllm.ai[vLLM Documentation]
-* https://python.langchain.com[LangChain Documentation]
+* https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed[Red Hat OpenShift AI Documentation]
+* https://python.langchain.com/docs/langgraph[LangGraph Documentation]
 
 == Thank you!
 

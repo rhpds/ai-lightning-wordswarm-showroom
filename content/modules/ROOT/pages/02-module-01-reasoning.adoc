@@ -1,4 +1,4 @@
-= Module 1: Simple reasoning prompting
+= Module 1: Reasoning Prompting
 :navtitle: Module 1: Reasoning Prompting
 :toc: macro
 :toclevels: 1
@@ -94,13 +94,13 @@ curl -s https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/kimi-k2-6/v1/chat/
   }' | jq '{content: .choices[0].message.content, reasoning: .choices[0].message.reasoning, usage: .usage}'
 ----
 +
-Observe: the `reasoning` field now shows the model's internal chain-of-thought. Token usage will be significantly higher.
+Observe: the `reasoning` field shows the model's chain-of-thought, but `content` is null because the 512-token cap was used entirely by reasoning. Without `max_tokens`, the response would include both reasoning and content, consuming far more tokens.
 
 === Verify
 
-✓ Thinking OFF returns a quick answer with `reasoning: null` +
-✓ Thinking ON returns a detailed answer with visible reasoning in the `reasoning` field +
-✓ Token usage is much higher with thinking ON
+✓ Thinking OFF: 512 tokens of content, `reasoning: null` +
+✓ Thinking ON: 512 tokens of reasoning, `content: null` (reasoning consumed the entire token budget) +
+✓ Without the `max_tokens` cap, thinking ON would generate both reasoning and content, using significantly more tokens
 
 == Exercise 3: Measure the latency difference
 
@@ -178,11 +178,15 @@ Compare the response quality with kimi-k2-6's reasoning-enabled response. Notice
 
 == Exercise 5: Watch reasoning in action on WordSwarm
 
-. Open the WordSwarm dashboard in your browser:
+. Open the WordSwarm dashboard in your browser (keep these instructions visible by splitting your screen):
 +
 https://red.ht/wordswarm[WordSwarm AI Demo^]
 +
 image::dashboard-overview.png[WordSwarm Dashboard,link=self,window=blank,width=700]
+
+. Click the one 1 player game option
+
+. Click on the `Agent` tab.
 
 . Select **kimi-k2-6** from the model dropdown (it's a reasoning model)
 
@@ -190,18 +194,24 @@ image::dashboard-overview.png[WordSwarm Dashboard,link=self,window=blank,width=7
 +
 image::agent-running.png[Agent running with kimi-k2-6,link=self,window=blank,width=700]
 
-. Observe the stats panel:
+. Observe the stats panel while kimi-k2-6 plays:
 * **TTFT** (Time to First Token) -- higher for reasoning models due to thinking time
 * **Tokens In/Out** -- reasoning models consume more tokens per call
 * **Latency** -- includes both thinking and generation time
 
-. Try switching to a different model (e.g., **Llama 3.2 3B Instruct**) and compare behavior
+. Now switch to **Llama 3.2 3B Instruct** (a small non-reasoning model) and run another game
+
+. Compare the two models as they play:
+* Which model feels faster to respond?
+* Which model finds better words?
+* Which model scores higher overall?
+* How do the metrics (TTFT, tokens, latency) differ?
 
 === Verify
 
-✓ Observed TTFT difference between reasoning and non-reasoning models +
-✓ Noticed token consumption patterns +
-✓ Saw how reasoning affects game-playing ability
+✓ Ran agent with both kimi-k2-6 (reasoning) and Llama 3.2 3B (non-reasoning) +
+✓ Compared speed, quality, and scoring between the models +
+✓ Noted how reasoning capability affects game performance
 
 == Module summary
 
