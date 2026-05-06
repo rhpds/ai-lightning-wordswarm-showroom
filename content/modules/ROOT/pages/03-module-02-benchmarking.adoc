@@ -26,7 +26,7 @@ Go back to the terminal in your JupyterLab instance.
 [.copypaste]
 [source,bash]
 ----
-pip install guidellm
+uv pip install guidellm
 ----
 +
 NOTE: Installation takes 2-3 minutes. While you wait, go back to https://red.ht/wordswarm[WordSwarm^] and play a few rounds yourself against the AI. Try to beat the agents you tested earlier!
