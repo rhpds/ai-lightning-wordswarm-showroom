@@ -54,11 +54,11 @@ echo "Token obtained: ${TOKEN:0:20}..."
 ✓ `guidellm --version` returns a version number +
 ✓ Token is exported
 
-== Exercise 2: Benchmark qwen36-27b (reasoning model)
+== Exercise 2: Benchmark nemotron-cascade-2-30b (reasoning model)
 
-qwen36-27b is the top-performing model on the WordSwarm leaderboard. Let's measure its raw inference performance.
+nemotron-cascade-2-30b is the top-performing model on the WordSwarm leaderboard. Let's measure its raw inference performance.
 
-NOTE: qwen36-27b is a reasoning model with thinking enabled by default. When thinking is on, the model buffers its internal chain-of-thought before flushing all output tokens in a single chunk -- TTFT and ITL will show as 0.0ms because GuideLLM can't measure per-token timing. To get real TTFT/ITL metrics, we disable thinking via the `extras` backend kwarg below.
+NOTE: nemotron-cascade-2-30b is a reasoning model with thinking enabled by default. When thinking is on, the model buffers its internal chain-of-thought before flushing all output tokens in a single chunk -- TTFT and ITL will show as 0.0ms because GuideLLM can't measure per-token timing. To get real TTFT/ITL metrics, we disable thinking via the `extras` backend kwarg below.
 
 TIP: The benchmark output is a wide table. Maximize your terminal window or drag it wider to see all columns clearly.
 
@@ -68,15 +68,15 @@ TIP: The benchmark output is a wide table. Maximize your terminal window or drag
 [source,bash]
 ----
 guidellm benchmark \
-  --target "https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/qwen36-27b/v1" \
+  --target "https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/nemotron-cascade-2-30b/v1" \
   --backend-kwargs '{"api_key": "'$TOKEN'", "extras": {"body": {"chat_template_kwargs": {"enable_thinking": false}}}}' \
   --profile concurrent \
   --rate 10 \
-  --model qwen36-27b \
+  --model nemotron-cascade-2-30b \
   --data "prompt_tokens=64,output_tokens=128" \
   --max-seconds 30 \
   --processor "gpt2" \
-  --output-dir ./results/qwen36-27b/concurrent-10 \
+  --output-dir ./results/nemotron-cascade-2-30b/concurrent-10 \
   --outputs benchmark.json,benchmark.csv
 ----
 +
@@ -137,7 +137,7 @@ guidellm benchmark \
 === Verify
 
 ✓ Benchmark completes in ~30 seconds +
-✓ You can compare the numbers with qwen36-27b's results
+✓ You can compare the numbers with nemotron-cascade-2-30b's results
 
 == Exercise 4: Compare the results
 
@@ -151,7 +151,7 @@ Looking at your two benchmark runs, you might notice something surprising:
 |===
 |Model |GPU Allocation |Latency (Mdn) |TTFT (Mdn) |Output Tokens/s
 
-|qwen36-27b
+|nemotron-cascade-2-30b
 |8x H200
 |~2.1s
 |~292ms
@@ -164,11 +164,11 @@ Looking at your two benchmark runs, you might notice something surprising:
 |~496
 |===
 
-**qwen36-27b is faster across every metric** despite being a massive reasoning model!
+**nemotron-cascade-2-30b is faster across every metric** despite being a massive reasoning model!
 
 === Why does this happen?
 
-**GPU allocation matters.** qwen36-27b runs on 8x H200 GPUs with massive memory bandwidth and compute. Llama 3.2 3B runs on a single tiny MIG slice with limited resources.
+**GPU allocation matters.** nemotron-cascade-2-30b runs on 8x H200 GPUs with massive memory bandwidth and compute. Llama 3.2 3B runs on a single tiny MIG slice with limited resources.
 
 The larger model has the compute budget to outperform the smaller one -- both in raw speed AND in quality.
 
@@ -180,7 +180,7 @@ This matches what you saw in the game:
 |===
 |Model |Benchmark Tokens/s |Game Score |Game Accuracy
 
-|qwen36-27b
+|nemotron-cascade-2-30b
 |~605
 |1,038
 |65%
@@ -191,7 +191,7 @@ This matches what you saw in the game:
 |80%
 |===
 
-qwen36-27b generates tokens faster, finds better words, and scores ~29x higher despite lower accuracy. Quality matters more than speed for complex reasoning tasks.
+nemotron-cascade-2-30b generates tokens faster, finds better words, and scores ~29x higher despite lower accuracy. Quality matters more than speed for complex reasoning tasks.
 
 === Verify
 
