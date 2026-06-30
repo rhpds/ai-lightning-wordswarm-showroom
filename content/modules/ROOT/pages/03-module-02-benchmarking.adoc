@@ -69,7 +69,7 @@ TIP: The benchmark output is a wide table. Maximize your terminal window or drag
 ----
 guidellm benchmark \
   --target "https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/qwen36-27b/v1" \
-  --backend-kwargs '{"api_key": "'$TOKEN'", "extras": {"body": {"chat_template_kwargs": {"thinking": false}}}}' \
+  --backend-kwargs '{"api_key": "'$TOKEN'", "extras": {"body": {"chat_template_kwargs": {"enable_thinking": false}}}}' \
   --profile concurrent \
   --rate 10 \
   --model qwen36-27b \

@@ -22,7 +22,7 @@ By the end of this module, you'll be able to:
 When thinking is enabled (the default for qwen36-27b), the model performs internal chain-of-thought reasoning before producing its final answer. The reasoning tokens appear in the `reasoning` field of the response message.
 
 * **Thinking ON** (default) -- The model reasons step-by-step internally. Higher quality but more tokens and latency.
-* **Thinking OFF** -- Pass `"chat_template_kwargs": {"thinking": false}` to skip reasoning. Faster and cheaper, but may miss nuance.
+* **Thinking OFF** -- Pass `"chat_template_kwargs": {"enable_thinking": false}` to skip reasoning. Faster and cheaper, but may miss nuance.
 
 The reasoning tokens are returned in the `.choices[0].message.reasoning` field.
 
@@ -71,7 +71,7 @@ curl -s https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/qwen36-27b/v1/chat
       {"role": "user", "content": "The letters S, H, O, P are on adjacent hexagonal cells. The hint is S___ (4 letters). What word could this be? List all possibilities."}
     ],
     "max_tokens": 512,
-    "chat_template_kwargs": {"thinking": false}
+    "chat_template_kwargs": {"enable_thinking": false}
   }' | jq '{content: .choices[0].message.content, reasoning: .choices[0].message.reasoning, usage: .usage}'
 ----
 +
@@ -120,7 +120,7 @@ time curl -s https://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/qwen36-27b/v1
       {"role": "user", "content": "Given the words SHOP, SONG, SING, SPIN — which one is most commonly used in everyday English? Answer in one word."}
     ],
     "max_tokens": 512,
-    "chat_template_kwargs": {"thinking": false}
+    "chat_template_kwargs": {"enable_thinking": false}
   }' > /dev/null
 ----
 
@@ -224,7 +224,7 @@ image::agent-running.png[Agent running with qwen36-27b,link=self,window=blank,wi
 
 **Key takeaways:**
 
-* qwen36-27b uses `"chat_template_kwargs": {"thinking": false}` to disable reasoning (not prompt tags)
+* qwen36-27b uses `"chat_template_kwargs": {"enable_thinking": false}` to disable reasoning (not prompt tags)
 * Reasoning tokens appear in the `.choices[0].message.reasoning` field
 * Thinking ON improves response quality at the cost of latency and tokens
 * Thinking OFF is faster but may miss nuance on complex tasks
