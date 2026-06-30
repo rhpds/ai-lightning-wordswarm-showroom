@@ -152,7 +152,7 @@ Looking at your two benchmark runs, you might notice something surprising:
 |Model |GPU Allocation |Latency (Mdn) |TTFT (Mdn) |Output Tokens/s
 
 |nemotron-cascade-2-30b
-|8x H200
+|1x H200
 |~2.1s
 |~292ms
 |~605
@@ -168,7 +168,7 @@ Looking at your two benchmark runs, you might notice something surprising:
 
 === Why does this happen?
 
-**GPU allocation matters.** nemotron-cascade-2-30b runs on 8x H200 GPUs with massive memory bandwidth and compute. Llama 3.2 3B runs on a single tiny MIG slice with limited resources.
+**GPU allocation matters.** nemotron-cascade-2-30b runs on 1x H200 GPUs with massive memory bandwidth and compute. Llama 3.2 3B runs on a single tiny MIG slice with limited resources.
 
 The larger model has the compute budget to outperform the smaller one -- both in raw speed AND in quality.
 

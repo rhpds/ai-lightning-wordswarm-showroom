@@ -79,7 +79,7 @@ As you watch agents play or run benchmarks, you'll see these key metrics:
 
 == The leaderboard
 
-We tested 4 models from our Model-as-a-Service (MaaS) platform, ranging from a tiny 3B-parameter model on a single GPU slice to a massive reasoning model with 8x H200 GPUs.
+We tested 4 models from our Model-as-a-Service (MaaS) platform, ranging from a tiny 3B-parameter model on a single GPU slice to a massive reasoning model with 1x H200 GPUs.
 
 The results might surprise you: the model with the highest score wasn't the fastest, and the most accurate model didn't win.
 

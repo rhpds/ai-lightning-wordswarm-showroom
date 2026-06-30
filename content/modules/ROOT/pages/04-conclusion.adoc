@@ -20,7 +20,7 @@ nemotron-cascade-2-30b dominates the WordSwarm leaderboard because it *reasons* 
 |Model |GPUs |Score |Level |Words |Accuracy |Avg Latency
 
 |nemotron-cascade-2-30b
-|8x H200
+|1x H200
 |**1,038**
 |21
 |284
@@ -56,7 +56,7 @@ The massive reasoning model (nemotron-cascade-2-30b) scored 29x higher than the 
 
 === GPU allocation directly impacts performance
 
-You might expect the tiny 3B model to outperform the massive reasoning model, but the opposite is true. nemotron-cascade-2-30b (8x H200 GPUs) delivers better performance than Llama 3.2 3B (1x tiny MIG slice) across every metric: latency, TTFT, and tokens/sec. Infrastructure matters.
+You might expect the tiny 3B model to outperform the massive reasoning model, but the opposite is true. nemotron-cascade-2-30b (1x H200 GPUs) delivers better performance than Llama 3.2 3B (1x tiny MIG slice) across every metric: latency, TTFT, and tokens/sec. Infrastructure matters.
 
 === Thinking mode has significant trade-offs
 
