@@ -12,7 +12,7 @@ Once logged in, you'll be greeted with the OpenShift AI dashboard.
 
 == Go to your project
 
-. A project in OpenShift AI represents OpenShift namespaces. Use the empty **`{user}`-demo** project that has been created for you.
+. A project in OpenShift AI represents an OpenShift namespace. Use the empty **`{user}`-demo** project that has been created for you.
 
 image::project-overview.png[Project Overview,link=self,window=blank,width=700]
 
